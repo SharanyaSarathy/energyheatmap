@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Energy Premise Grades SAMPLE</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script src = "https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var omap;
+      function initMap() {
+        omap = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 47.6122, lng: -122.33799},
+          zoom: 11
+        });
+    
+         d3.csv("https://data.seattle.gov/resource/7rac-kyay.csv", function(data) {
+          for (i=0; i<data.length; i++) {  
+            var line = data[i];
+            var latit = parseFloat(line.latitude);
+            var long = parseFloat(line.longitude);
+            var score = (line.energystarscore); 
+            
+            var color = 0;
+              var r, g, b = 0;
+              if(score < 50) {
+                r = 255;
+                g = Math.round(5.1 * score);
+              }
+              else {
+                g = 255;
+                r = Math.round(510 - 5.10 * score);
+              }
+              var h = r * 0x10000 + g * 0x100 + b * 0x1;
+              color = '#' + ('000000' + h.toString(16)).slice(-6);
+
+            /* if (score < 50) {
+              var color = "#ff0000"
+            } else if ((50 < score) && (80 > score)) {
+              var color = "#ffff00"  
+            } else {
+              var color = "#00FF00"
+            } */
+          
+            var mapCircle = new google.maps.Circle({
+                    strokeColor: color,
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: color, 
+                    fillOpacity: 0.8,
+                    map: omap,
+                    center: {lat: latit, lng: long},
+                    radius: 20
+                  });
+   
+            }
+        });
+      }
+
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9T8Pn12ceJargw-jygZdGdKmUjTzNf3U&callback=initMap"
+    async defer></script>
+  </body>
+</html>
