@@ -5,6 +5,47 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <style>
+      body {font-family: Arial, Helvetica, sans-serif;}
+
+      /* The Modal (background) */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: top;
+        top: 0;
+        width: 100%; /* Half width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+      }
+
+      /* Modal Content */
+      .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
+
+      /* The Close Button */
+      .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
@@ -31,59 +72,33 @@
       }
       #legend img {
         vertical-align: middle;
-      }
+      }    
 
-      /* Style the button that is used to open and close the collapsible content */
-      .collapsible {
-        background-color: #eee;
-        color: #444;
-        cursor: pointer;
-        padding: 18px;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        font-size: 15px;
-      }
-
-      /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-      .active, .collapsible:hover {
-        background-color: #ccc;
-      }
-
-      /* Style the collapsible content. Note: hidden by default */
-      .content {
-        padding: 0 18px;
-        display: none;
-        overflow: hidden;
-        background-color: #f1f1f1;
-}
     </style>
     <script src = "https://d3js.org/d3.v4.min.js"></script>
   </head>
   <body>
+    <h2>Seattle Energy Heatmap Information</h2>
+
+    <!-- Trigger/Open The Modal -->
+    <button id="myBtn">Click for Info</button>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>This heatmap is a pet project. It uses publicly accessible benchmarking data from the Seattle City website; this data was last updated 
+          on October 2019. The heatmap is created by taking the range of Energy Star scores and assigning them to a green-red color scale. Green is 
+          most energy efficient, and red is least energy efficient, as is shown on the legend in the lower right hand corner.
+        </p>
+      </div>
+
+    </div>
     <div id="map"></div>
     <div id="legend"><h2>Legend</h2></div>
-    <button type="button" class="collapsible">Open Collapsible</button>
-    <div id = "mapCollapse" class="content">
-      <p>Lorem ipsum...</p>
-    </div>
     <script>
-
-      var i;
-
-      for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function() {
-          this.classList.toggle("active");
-          var content = this.nextElementSibling;
-          if (content.style.display === "block") {
-            content.style.display = "none";
-          } else {
-            content.style.display = "block";
-          }
-        });
-        omap.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(mapCollapse);
-      }
 
       var omap;
       function initMap() {
@@ -135,7 +150,31 @@
 
             var coll = document.getElementsByClassName("collapsible");
 
+          // Get the modal
+          var modal = document.getElementById("myModal");
 
+          // Get the button that opens the modal
+          var btn = document.getElementById("myBtn");
+
+          // Get the <span> element that closes the modal
+          var span = document.getElementsByClassName("close")[0];
+
+          // When the user clicks the button, open the modal 
+          btn.onclick = function() {
+            modal.style.display = "block";
+          }
+
+          // When the user clicks on <span> (x), close the modal
+          span.onclick = function() {
+            modal.style.display = "none";
+          }
+
+          // When the user clicks anywhere outside of the modal, close it
+          window.onclick = function(event) {
+            if (event.target == modal) {
+              modal.style.display = "none";
+            }
+}
       }
 
     </script>
